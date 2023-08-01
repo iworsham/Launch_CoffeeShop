@@ -30,7 +30,7 @@ namespace CoffeeShopTests
             var html = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
-            Assert.DoesNotContain("Latte", html);
+            Assert.Contains("Latte", html);
             
         }
         [Fact]
