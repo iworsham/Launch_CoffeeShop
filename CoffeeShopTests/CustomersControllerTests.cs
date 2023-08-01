@@ -65,6 +65,24 @@ namespace CoffeeShopTests
 			Assert.Contains("Email:", html);
 			Assert.Contains($"<form method=\"post\" action=\"/customers/create\">", html);
 		}
+		[Fact]
+		public async Task EditView_DisplaysForm()
+		{
+			var context = GetDbContext();
+			var client = _factory.CreateClient();
+
+			var customer = new Customer { Name = "Zay", Email = "zay@gmail.com" };
+			context.Customers.Add(customer);
+			context.SaveChanges();
+
+			var response = await client.GetAsync($"/customers/edit/{customer.Id}");
+			var html = await response.Content.ReadAsStringAsync();
+
+			response.EnsureSuccessStatusCode();
+			Assert.Contains("Zay", html);
+			Assert.Contains("zay@gmail.com", html);
+			Assert.Contains($"<form method=\"post\" action=\"/customers/update/{customer.Id}\">", html);
+		}
 
 		[Fact]
 		public async Task Show_ReturnsViewWithCustomerInformation()
