@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public int PriceInCents { get; set; }
-    
+        public Order? Order { get; set; }
         public double PriceInDollars()
         {
             double priceInDollars = (double)PriceInCents / 100; 

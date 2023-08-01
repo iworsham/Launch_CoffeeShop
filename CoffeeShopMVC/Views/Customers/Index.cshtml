@@ -1,0 +1,7 @@
+﻿@model IEnumerable<Customer>
+
+<h1>Customers</h1>
+@foreach (var customer in Model)
+{
+	<p>Name: @customer.Name, Email: @customer.Email</p>
+}

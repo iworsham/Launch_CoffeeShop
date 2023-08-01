@@ -48,7 +48,7 @@ namespace CoffeeShopMVC.Controllers
             _context.Items.Add(item);
             _context.SaveChanges();
             var newItemId = item.Id;
-            return RedirectToAction("index", new { id = newItemId });
+            return RedirectToAction("index");
         }
 
         [Route("/items/edit/{itemId:int}")]
