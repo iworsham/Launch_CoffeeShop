@@ -1,0 +1,11 @@
+﻿@model Customer
+
+<h1>@Model.Name</h1>
+
+<h4>Items Ordered By @Model.Name:</h4>
+@foreach(var item in Model.AllItems())
+{
+	<p><a href="/items/details/@item.Id">@item.Name</a></p>
+}
+<br />
+<p>Total Spent: $@Model.TotalSpent()</p>
