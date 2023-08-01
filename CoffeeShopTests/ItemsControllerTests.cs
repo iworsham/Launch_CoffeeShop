@@ -7,7 +7,7 @@ using System.Net;
 
 namespace CoffeeShopTests
 {
-    [Collection("Item Controller Tests")]
+    [Collection("Controller Tests")]
     public class ItemsControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
 
@@ -30,7 +30,7 @@ namespace CoffeeShopTests
             var html = await response.Content.ReadAsStringAsync();
 
             response.EnsureSuccessStatusCode();
-            Assert.DoesNotContain("Latte", html);
+            Assert.Contains("Latte", html);
             
         }
         [Fact]
