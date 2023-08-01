@@ -32,6 +32,19 @@ namespace CoffeeShopMVC.Controllers
 		//	var newCustomerId = customer.Id;
 			return RedirectToAction("index");
 		}
+
+
+		[Route("/customers/details/{customerId:int}")]
+		public IActionResult Show(int customerId)
+		{
+			var customer = _context.Customers
+				.Where(c => c.Id == customerId)
+				.Include(c => c.Orders)
+				.ThenInclude(o => o.Items)
+				.First();
+
+			return View(customer);
+
 		[Route("/customers/edit/{customerId:int}")]
 		public IActionResult Edit(int customerId)
 		{
@@ -47,6 +60,7 @@ namespace CoffeeShopMVC.Controllers
 			_context.SaveChanges();
 
 			return Redirect($"/customers/details/{customer.Id}");
+
 		}
 	}
 }

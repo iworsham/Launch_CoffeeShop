@@ -7,7 +7,7 @@ using System.Net;
 
 namespace CoffeeShopTests
 {
-    [Collection("Item Controller Tests")]
+    [Collection("Controller Tests")]
     public class ItemsControllerTests : IClassFixture<WebApplicationFactory<Program>>
     {
 

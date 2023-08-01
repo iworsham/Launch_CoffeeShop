@@ -16,7 +16,7 @@ using System.Net;
 
 namespace CoffeeShopTests
 {
-	[Collection("Customer Controller Tests")]
+	[Collection("Controller Tests")]
 	public class CustomersControllerTests : IClassFixture<WebApplicationFactory<Program>>
 	{
 		private readonly WebApplicationFactory<Program> _factory;
@@ -41,7 +41,7 @@ namespace CoffeeShopTests
 		public async void Returns_ListOfCustomers_Index()
 		{
 			var context = GetDbContext();
-			context.Customers.Add(new Customer { Name = "Isiah", Email = "Isiah@email.com"});
+			context.Customers.Add(new Customer { Name = "Isiah", Email = "Isiah@email.com" });
 			context.SaveChanges();
 
 			var client = _factory.CreateClient();
@@ -84,5 +84,36 @@ namespace CoffeeShopTests
 			Assert.Contains($"<form method=\"post\" action=\"/customers/update/{customer.Id}\">", html);
 		}
 
+		[Fact]
+		public async Task Show_ReturnsViewWithCustomerInformation()
+		{
+			var context = GetDbContext();
+			var client = _factory.CreateClient();
+
+			Customer customer = new Customer { Name = "Seth", Email = "seth@aol.com" };
+			Order order1 = new Order { DateCreated = DateTime.Now.ToUniversalTime() };
+            Order order2 = new Order { DateCreated = DateTime.Now.ToUniversalTime() };
+			Item item1 = new Item { Name = "Chai Latte", PriceInCents = 450 };
+            Item item2 = new Item { Name = "Scone", PriceInCents = 300 };
+            Item item3 = new Item { Name = "Coffee", PriceInCents = 325 };
+
+			order1.Items.Add(item1);
+			order1.Items.Add(item2);
+			order2.Items.Add(item3);
+			customer.Orders.Add(order1);
+			customer.Orders.Add(order2);
+
+			context.Customers.Add(customer);
+			context.SaveChanges();
+
+            var response = await client.GetAsync($"/customers/details/{customer.Id}");
+            var html = await response.Content.ReadAsStringAsync();
+
+			response.EnsureSuccessStatusCode();
+			Assert.Contains("Seth", html);
+			Assert.Contains("Chai Latte", html);
+			Assert.Contains("Coffee", html);
+			Assert.Contains("$10.75", html);
+        }
 	}
 }
