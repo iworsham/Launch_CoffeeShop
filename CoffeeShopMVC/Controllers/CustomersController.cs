@@ -32,5 +32,21 @@ namespace CoffeeShopMVC.Controllers
 		//	var newCustomerId = customer.Id;
 			return RedirectToAction("index");
 		}
+		[Route("/customers/edit/{customerId:int}")]
+		public IActionResult Edit(int customerId)
+		{
+			var customer = _context.Customers.Find(customerId);
+			return View(customer);
+		}
+
+		[HttpPost]
+		public IActionResult Update(Customer customer, int id)
+		{
+			customer.Id = id;
+			_context.Customers.Update(customer);
+			_context.SaveChanges();
+
+			return Redirect($"/customers/details/{customer.Id}");
+		}
 	}
 }
