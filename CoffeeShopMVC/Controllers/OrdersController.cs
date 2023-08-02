@@ -20,5 +20,16 @@ namespace CoffeeShopMVC.Controllers
 			var customer = _context.Customers.Where(c => c.Id == customerId).Include(c => c.Orders).ThenInclude(o => o.Items).FirstOrDefault();
 			return View(customer);
 		}
+
+		[Route("/customers/{customerId:int}/orders/{orderId:int}")]
+		public IActionResult Show(int orderId)
+		{
+			var order = _context.Orders
+				.Where(o => o.Id == orderId)
+				.Include(o => o.Items)
+				.FirstOrDefault();
+
+			return View(order);
+		}
 	}
 }
