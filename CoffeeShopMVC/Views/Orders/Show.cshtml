@@ -1,0 +1,8 @@
+﻿@model Order
+
+<h1>Order @Model.Id</h1>
+
+@for(int itemNumber = 1; itemNumber <= Model.Items.Count; itemNumber++)
+{
+	<p>@itemNumber @Model.Items[itemNumber-1].Name</p>
+}
