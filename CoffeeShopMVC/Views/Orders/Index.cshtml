@@ -1,0 +1,9 @@
+﻿@model Customer
+
+<h1>@Model.Name's Orders</h1>
+
+@foreach(var order in Model.Orders)
+{
+    <p>Order @order.Id</p>
+    <p>@order.DateCreated.ToShortDateString()<br /></p>
+}
