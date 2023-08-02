@@ -115,5 +115,24 @@ namespace CoffeeShopTests
 			Assert.Contains("Coffee", html);
 			Assert.Contains("$10.75", html);
         }
+
+		[Fact]
+		public async Task DeleteAction_SuccessfullyWorksWithButton()
+		{
+			var context = GetDbContext();
+			var client = _factory.CreateClient();
+
+			Customer customer = new Customer { Name = "Seth", Email = "seth@aol.com" };
+			context.Customers.Add(customer);
+			context.SaveChanges();
+
+			var response = await client.PostAsync($"/customers/delete/{customer.Id}", null);
+			var html = await response.Content.ReadAsStringAsync();
+
+			response.EnsureSuccessStatusCode();
+			Assert.DoesNotContain("Seth", html);
+			Assert.DoesNotContain("seth@aol.com", html);
+			Assert.Contains("<h1>Customers</h1>", html);
+		}
 	}
 }
