@@ -2,6 +2,13 @@
 
 <h1>@Model.Name</h1>
 
+@if (Model.Orders.Count == 0)
+{
+	<form method="post" action="/customers/delete/@Model.Id">
+		<button type="submit">Delete Customer</button>
+	</form>
+}
+
 <h4>Items Ordered By @Model.Name:</h4>
 @foreach(var item in Model.AllItems())
 {

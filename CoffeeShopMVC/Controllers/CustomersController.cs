@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShopMVC.Controllers
 {
-    public class CustomersController : Controller
-    {
-        private readonly CoffeeShopMVCContext _context;
+	public class CustomersController : Controller
+	{
+		private readonly CoffeeShopMVCContext _context;
 
-        public CustomersController(CoffeeShopMVCContext context)
-        {
-            _context = context;
-        }
-        public IActionResult Index()
-        {
-            var customers = _context.Customers.ToList();
-            return View(customers);
-        }
+		public CustomersController(CoffeeShopMVCContext context)
+		{
+			_context = context;
+		}
+		public IActionResult Index()
+		{
+			var customers = _context.Customers.ToList();
+			return View(customers);
+		}
 		public IActionResult New()
 		{
 			return View();
@@ -29,7 +29,7 @@ namespace CoffeeShopMVC.Controllers
 
 			_context.Customers.Add(customer);
 			_context.SaveChanges();
-		//	var newCustomerId = customer.Id;
+			//	var newCustomerId = customer.Id;
 			return RedirectToAction("index");
 		}
 
@@ -44,7 +44,7 @@ namespace CoffeeShopMVC.Controllers
 				.First();
 
 			return View(customer);
-
+		}
 		[Route("/customers/edit/{customerId:int}")]
 		public IActionResult Edit(int customerId)
 		{
@@ -62,5 +62,15 @@ namespace CoffeeShopMVC.Controllers
 			return Redirect($"/customers/details/{customer.Id}");
 
 		}
+
+		[HttpPost]
+		public IActionResult Delete(int id)
+		{
+			var customer = _context.Customers.Find(id);
+			_context.Customers.Remove(customer);
+			_context.SaveChanges();
+
+			return RedirectToAction("index");
+		}
 	}
-}
+} 
